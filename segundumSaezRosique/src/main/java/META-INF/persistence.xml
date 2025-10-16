@@ -22,7 +22,7 @@
 
             <property name="javax.persistence.jdbc.password"
 
-                value="" />
+                value="practicas" />
 
             <property name="javax.persistence.jdbc.url"
 
