@@ -2,8 +2,17 @@ package segundum.modelo;
 
 import java.time.LocalDate;
 
-public class Usuario {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import segundum.repositorio.Identificable;
+
+@Entity
+@Table(name = "usuarios")
+public class Usuario implements Identificable {
+
+	@Id
 	private String id;
 
 	private String email;

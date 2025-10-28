@@ -2,8 +2,17 @@ package segundum.modelo;
 
 import java.time.LocalDateTime;
 
-public class Producto {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import segundum.repositorio.Identificable;
+
+@Entity
+@Table(name = "productos")
+public class Producto implements Identificable {
+
+	@Id
 	private String id;
 
 	private String titulo;

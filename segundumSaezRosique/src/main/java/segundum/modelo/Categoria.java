@@ -3,8 +3,17 @@ package segundum.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Categoria {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import segundum.repositorio.Identificable;
+
+@Entity
+@Table(name = "categorias")
+public class Categoria implements Identificable {
+
+	@Id
 	private String id;
 
 	private String nombre;

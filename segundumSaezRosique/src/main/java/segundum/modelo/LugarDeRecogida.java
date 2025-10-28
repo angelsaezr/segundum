@@ -1,7 +1,16 @@
 package segundum.modelo;
 
-public class LugarDeRecogida {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import segundum.repositorio.Identificable;
+
+@Entity
+@Table(name = "lugares_de_recogida")
+public class LugarDeRecogida implements Identificable {
+
+	@Id
 	private String id;
 
 	private String descripcion;
