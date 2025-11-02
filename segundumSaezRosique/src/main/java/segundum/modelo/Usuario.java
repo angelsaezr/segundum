@@ -3,6 +3,8 @@ package segundum.modelo;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,6 +15,7 @@ import segundum.repositorio.Identificable;
 public class Usuario implements Identificable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private String id;
 
 	private String email;
@@ -34,9 +37,8 @@ public class Usuario implements Identificable {
 
 	}
 
-	public Usuario(String id, String email, String nombre, String apellidos, String clave, LocalDate fechaNacimiento,
+	public Usuario(String email, String nombre, String apellidos, String clave, LocalDate fechaNacimiento,
 			String telefono, boolean administrador) {
-		this.id = id;
 		this.email = email;
 		this.nombre = nombre;
 		this.apellidos = apellidos;

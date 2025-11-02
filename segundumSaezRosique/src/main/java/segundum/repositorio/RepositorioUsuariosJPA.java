@@ -12,6 +12,5 @@ public class RepositorioUsuariosJPA extends RepositorioJPA<Usuario> implements I
 	@Override
 	public Usuario buscarPorEmail(String email) throws RepositorioException {
 		return null;
-
 	}
 }

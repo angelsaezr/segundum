@@ -22,5 +22,6 @@ public interface IRepositorioProductos extends RepositorioString<Producto> {
 	void asignarLugarRecogida(String idProducto, double longitud, double latitud, String descripcionLugar)
 			throws RepositorioException, EntidadNoEncontrada;
 
-	// TODO Falta un método para el resumen mensual de productos a la venta por usuario, para un mes/año concretos.
+	// TODO Falta un método para el resumen mensual de productos a la venta por
+	// usuario, para un mes/año concretos.
 }

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,6 +16,7 @@ import segundum.repositorio.Identificable;
 public class Categoria implements Identificable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private String id;
 
 	private String nombre;
