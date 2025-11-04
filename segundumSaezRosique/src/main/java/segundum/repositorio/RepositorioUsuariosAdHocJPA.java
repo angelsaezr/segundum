@@ -1,6 +1,13 @@
 package segundum.repositorio;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
+
 import segundum.modelo.Usuario;
+import segundum.utils.EntityManagerHelper;
 
 public class RepositorioUsuariosAdHocJPA extends RepositorioJPA<Usuario> implements RepositorioUsuariosAdHoc {
 
@@ -11,6 +18,19 @@ public class RepositorioUsuariosAdHocJPA extends RepositorioJPA<Usuario> impleme
 
 	@Override
 	public Usuario buscarPorEmail(String email) throws RepositorioException {
-		return null;
+		try {
+			EntityManager em = EntityManagerHelper.getEntityManager();
+
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email",
+					Usuario.class);
+			query.setParameter("email", email);
+			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
+
+			return query.getSingleResult();
+		} catch (Exception e) {
+			throw new RepositorioException("Error buscando usuario por email", e);
+		} finally {
+			EntityManagerHelper.closeEntityManager();
+		}
 	}
 }

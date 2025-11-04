@@ -15,7 +15,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 	public abstract Class<T> getClase();
 
 	@Override
-
 	public String add(T entity) throws RepositorioException {
 
 		EntityManager em = EntityManagerHelper.getEntityManager();
@@ -49,7 +48,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 	}
 
 	@Override
-
 	public void update(T entity) throws RepositorioException, EntidadNoEncontrada {
 
 		EntityManager em = EntityManagerHelper.getEntityManager();
@@ -89,7 +87,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 	}
 
 	@Override
-
 	public void delete(T entity) throws RepositorioException, EntidadNoEncontrada {
 
 		EntityManager em = EntityManagerHelper.getEntityManager();
@@ -129,7 +126,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 	}
 
 	@Override
-
 	public T getById(String id) throws EntidadNoEncontrada, RepositorioException {
 
 		try {
@@ -165,7 +161,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 	}
 
 	@Override
-
 	public List<T> getAll() throws RepositorioException {
 
 		try {
@@ -195,7 +190,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 	}
 
 	@Override
-
 	public List<String> getIds() throws RepositorioException {
 
 		EntityManager em = EntityManagerHelper.getEntityManager();
