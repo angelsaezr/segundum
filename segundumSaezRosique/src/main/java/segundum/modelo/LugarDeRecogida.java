@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import segundum.repositorio.Identificable;
@@ -16,12 +18,14 @@ public class LugarDeRecogida implements Identificable {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private String id;
 
+	@Lob
 	private String descripcion;
 
 	private double longitud;
 
 	private double latitud;
 
+	@OneToOne(mappedBy = "recogida")
 	private Producto producto;
 
 	// Constructores

@@ -3,10 +3,14 @@ package segundum.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import segundum.repositorio.Identificable;
@@ -21,12 +25,15 @@ public class Categoria implements Identificable {
 
 	private String nombre;
 
+	@Lob
 	private String descripcion;
 
 	private String ruta;
 
-	private List<Categoria> subcategorias;
+	@OneToMany(mappedBy = "categoriaPadre", cascade = CascadeType.ALL)
+	private List<Categoria> subcategorias = new LinkedList<>();
 
+	@ManyToOne
 	private Categoria categoriaPadre;
 
 	// Constructores

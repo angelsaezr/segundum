@@ -3,9 +3,13 @@ package segundum.modelo;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import segundum.repositorio.Identificable;
@@ -20,10 +24,12 @@ public class Producto implements Identificable {
 
 	private String titulo;
 
+	@Lob
 	private String descripcion;
 
 	private double precio;
 
+	@Enumerated(EnumType.STRING)
 	private EstadoProducto estado;
 
 	private LocalDateTime fechaPublicacion;
@@ -32,10 +38,13 @@ public class Producto implements Identificable {
 
 	private boolean envioDisponible;
 
+	@OneToOne
 	private Categoria categoria;
 
+	@OneToOne
 	private Usuario vendedor;
 
+	@OneToOne
 	private LugarDeRecogida recogida;
 
 	// Constructores
