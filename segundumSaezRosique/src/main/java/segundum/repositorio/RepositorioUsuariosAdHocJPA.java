@@ -2,7 +2,7 @@ package segundum.repositorio;
 
 import segundum.modelo.Usuario;
 
-public class RepositorioUsuariosJPA extends RepositorioJPA<Usuario> implements IRepositorioUsuarios {
+public class RepositorioUsuariosAdHocJPA extends RepositorioJPA<Usuario> implements RepositorioUsuariosAdHoc {
 
 	@Override
 	public Class<Usuario> getClase() {
