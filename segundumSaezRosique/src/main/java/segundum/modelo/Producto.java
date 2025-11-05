@@ -2,6 +2,7 @@ package segundum.modelo;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -44,8 +45,8 @@ public class Producto implements Identificable {
 	@OneToOne
 	private Usuario vendedor;
 
-	@OneToOne
-	private LugarDeRecogida recogida;
+	@Embedded
+	private LugarDeRecogida lugarDeRecogida;
 
 	// Constructores
 	public Producto() {
@@ -53,7 +54,7 @@ public class Producto implements Identificable {
 	}
 
 	public Producto(String titulo, String descripcion, double precio, EstadoProducto estado, boolean envioDisponible,
-			Categoria categoria, Usuario vendedor, LugarDeRecogida recogida) {
+			Categoria categoria, Usuario vendedor, LugarDeRecogida lugarDeRecogida) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.precio = precio;
@@ -63,7 +64,7 @@ public class Producto implements Identificable {
 		this.envioDisponible = envioDisponible;
 		this.categoria = categoria;
 		this.vendedor = vendedor;
-		this.recogida = recogida;
+		this.lugarDeRecogida = lugarDeRecogida;
 	}
 
 	// Getters y Setters
@@ -147,12 +148,12 @@ public class Producto implements Identificable {
 		this.vendedor = vendedor;
 	}
 
-	public LugarDeRecogida getRecogida() {
-		return recogida;
+	public LugarDeRecogida getLugarDeRecogida() {
+		return lugarDeRecogida;
 	}
 
-	public void setRecogida(LugarDeRecogida recogida) {
-		this.recogida = recogida;
+	public void setLugarDeRecogida(LugarDeRecogida recogida) {
+		this.lugarDeRecogida = recogida;
 	}
 
 	// Métodos auxiliares

@@ -1,21 +1,10 @@
 package segundum.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 import javax.persistence.Lob;
-import javax.persistence.Table;
 
-import segundum.repositorio.Identificable;
-
-@Entity
-@Table(name = "lugares_de_recogida")
-public class LugarDeRecogida implements Identificable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	private String id;
+@Embeddable
+public class LugarDeRecogida {
 
 	@Lob
 	private String descripcion;
@@ -33,15 +22,6 @@ public class LugarDeRecogida implements Identificable {
 		this.descripcion = descripcion;
 		this.longitud = longitud;
 		this.latitud = latitud;
-	}
-
-	// Getters y Setters
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getDescripcion() {
@@ -71,7 +51,7 @@ public class LugarDeRecogida implements Identificable {
 	// Métodos auxiliares
 	@Override
 	public String toString() {
-		return "LugarDeRecogida{" + "id=" + id + ", descripcion='" + descripcion + '\'' + ", longitud=" + longitud
+		return "LugarDeRecogida{" + "descripcion='" + descripcion + '\'' + ", longitud=" + longitud
 				+ ", latitud=" + latitud + '}';
 	}
 }

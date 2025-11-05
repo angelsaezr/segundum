@@ -16,12 +16,13 @@ public class ServicioProducto implements IServicioProducto {
 
 	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	private Repositorio<Producto, String> repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);
+	private Repositorio<Categoria, String> repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
 
 	@Override
 	public String altaProducto(String titulo, String descripcion, double precio, EstadoProducto estado,
 			boolean envioDisponible, String idCategoria, String idVendedor, String descripcionRecogida, double longitud,
 			double latitud) throws RepositorioException, EntidadNoEncontrada {
-		Categoria categoria = null; // TODO obtener categoria por idCategoria
+		Categoria categoria = repositorioCategorias.getById(idCategoria);
 		Usuario vendedor = repositorioUsuarios.getById(idVendedor);
 		LugarDeRecogida lugarDeRecogida = new LugarDeRecogida(descripcionRecogida, longitud, latitud);
 		Producto producto = new Producto(titulo, descripcion, precio, estado, envioDisponible, categoria, vendedor,
@@ -32,21 +33,26 @@ public class ServicioProducto implements IServicioProducto {
 	@Override
 	public void modificarDatosProducto(String idProducto, Double nuevoPrecio, String nuevaDescripcion)
 			throws RepositorioException, EntidadNoEncontrada {
-		// TODO Auto-generated method stub
-
+		Producto producto = repositorioProductos.getById(idProducto);
+		producto.setPrecio(nuevoPrecio);
+		producto.setDescripcion(nuevaDescripcion);
+		repositorioProductos.update(producto);
 	}
 
 	@Override
 	public void asignarLugarRecogida(String idProducto, double longitud, double latitud, String descripcionLugar)
 			throws RepositorioException, EntidadNoEncontrada {
-		// TODO Auto-generated method stub
-
+		Producto producto = repositorioProductos.getById(idProducto);
+		LugarDeRecogida lugarDeRecogida = new LugarDeRecogida(descripcionLugar, longitud, latitud);
+		producto.setLugarDeRecogida(lugarDeRecogida);
+		repositorioProductos.update(producto);
 	}
 
 	@Override
 	public void incrementarVisualizaciones(String idProducto) throws RepositorioException, EntidadNoEncontrada {
-		// TODO Auto-generated method stub
-
+		Producto producto = repositorioProductos.getById(idProducto);
+		producto.incrementarVisualizaciones();
+		repositorioProductos.update(producto);
 	}
 
 	@Override
