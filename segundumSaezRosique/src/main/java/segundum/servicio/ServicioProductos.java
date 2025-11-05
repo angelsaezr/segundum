@@ -12,7 +12,7 @@ import segundum.repositorio.FactoriaRepositorios;
 import segundum.repositorio.Repositorio;
 import segundum.repositorio.RepositorioException;
 
-public class ServicioProducto implements IServicioProducto {
+public class ServicioProductos implements IServicioProductos {
 
 	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	private Repositorio<Producto, String> repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);

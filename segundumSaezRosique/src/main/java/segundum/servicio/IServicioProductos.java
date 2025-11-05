@@ -8,7 +8,7 @@ import segundum.modelo.Producto;
 import segundum.repositorio.EntidadNoEncontrada;
 import segundum.repositorio.RepositorioException;
 
-public interface IServicioProducto {
+public interface IServicioProductos {
 
 	String altaProducto(String titulo, String descripcion, double precio, EstadoProducto estado,
 			boolean envioDisponible, String idCategoria, String idVendedor, String descripcionRecogida, double longitud,

@@ -9,7 +9,7 @@ import org.eclipse.persistence.config.QueryHints;
 import segundum.modelo.Usuario;
 import segundum.utils.EntityManagerHelper;
 
-public class RepositorioUsuariosAdHocJPA extends RepositorioJPA<Usuario> implements RepositorioUsuariosAdHoc {
+public class RepositorioUsuariosAdHocJPA extends RepositorioUsuariosJPA implements RepositorioUsuariosAdHoc {
 
 	@Override
 	public Class<Usuario> getClase() {
@@ -21,8 +21,7 @@ public class RepositorioUsuariosAdHocJPA extends RepositorioJPA<Usuario> impleme
 		try {
 			EntityManager em = EntityManagerHelper.getEntityManager();
 
-			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email",
-					Usuario.class);
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class);
 			query.setParameter("email", email);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 
