@@ -10,7 +10,6 @@ import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 
 import segundum.modelo.EstadoProducto;
-import segundum.modelo.LugarDeRecogida;
 import segundum.modelo.Producto;
 import segundum.utils.EntityManagerHelper;
 
@@ -77,131 +76,6 @@ public class RepositorioProductosAdHocJPA extends RepositorioJPA<Producto> imple
 
         } catch (RuntimeException e) {
             throw new RepositorioException("Error buscando productos", e);
-        } finally {
-            EntityManagerHelper.closeEntityManager();
-        }
-    }
-
-    @Override
-    public void incrementarVisualizaciones(String idProducto) throws RepositorioException, EntidadNoEncontrada {
-
-        EntityManager em = EntityManagerHelper.getEntityManager();
-
-        try {
-            em.getTransaction().begin();
-
-            Producto p = em.find(Producto.class, idProducto);
-            if (p == null) {
-                throw new EntidadNoEncontrada(idProducto + " no existe en el repositorio");
-            }
-
-            p.incrementarVisualizaciones();
-            em.merge(p);
-
-            em.getTransaction().commit();
-        } catch (EntidadNoEncontrada e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } catch (RuntimeException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RepositorioException("Error incrementando visualizaciones producto " + idProducto, e);
-        } finally {
-            EntityManagerHelper.closeEntityManager();
-        }
-    }
-
-    @Override
-    public void modificarDatosProducto(String idProducto, Double nuevoPrecio, String nuevaDescripcion)
-            throws RepositorioException, EntidadNoEncontrada {
-
-        EntityManager em = EntityManagerHelper.getEntityManager();
-
-        try {
-            em.getTransaction().begin();
-
-            Producto p = em.find(Producto.class, idProducto);
-            if (p == null) {
-                throw new EntidadNoEncontrada(idProducto + " no existe en el repositorio");
-            }
-
-            boolean changed = false;
-            if (nuevoPrecio != null) {
-                p.setPrecio(nuevoPrecio);
-                changed = true;
-            }
-
-            if (nuevaDescripcion != null) {
-                p.setDescripcion(nuevaDescripcion);
-                changed = true;
-            }
-
-            if (changed) {
-                em.merge(p);
-            }
-
-            em.getTransaction().commit();
-        } catch (EntidadNoEncontrada e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } catch (RuntimeException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RepositorioException("Error modificando datos del producto " + idProducto, e);
-        } finally {
-            EntityManagerHelper.closeEntityManager();
-        }
-    }
-
-    @Override
-    public void asignarLugarRecogida(String idProducto, double longitud, double latitud, String descripcionLugar)
-            throws RepositorioException, EntidadNoEncontrada {
-
-        EntityManager em = EntityManagerHelper.getEntityManager();
-
-        try {
-            em.getTransaction().begin();
-
-            Producto p = em.find(Producto.class, idProducto);
-            if (p == null) {
-                throw new EntidadNoEncontrada(idProducto + " no existe en el repositorio");
-            }
-
-            LugarDeRecogida lugar = p.getRecogida();
-
-            if (lugar == null) {
-                lugar = new LugarDeRecogida();
-                lugar.setDescripcion(descripcionLugar);
-                lugar.setLongitud(longitud);
-                lugar.setLatitud(latitud);
-                lugar.setProducto(p);
-                em.persist(lugar);
-                p.setRecogida(lugar);
-                em.merge(p);
-            } else {
-                lugar.setDescripcion(descripcionLugar);
-                lugar.setLongitud(longitud);
-                lugar.setLatitud(latitud);
-                em.merge(lugar);
-            }
-
-            em.getTransaction().commit();
-        } catch (EntidadNoEncontrada e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } catch (RuntimeException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RepositorioException("Error asignando lugar de recogida al producto " + idProducto, e);
         } finally {
             EntityManagerHelper.closeEntityManager();
         }

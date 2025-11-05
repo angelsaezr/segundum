@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import segundum.repositorio.Identificable;
@@ -25,20 +24,15 @@ public class LugarDeRecogida implements Identificable {
 
 	private double latitud;
 
-	@OneToOne(mappedBy = "recogida")
-	private Producto producto;
-
 	// Constructores
 	public LugarDeRecogida() {
 
 	}
 
-	public LugarDeRecogida(String id, String descripcion, double longitud, double latitud, Producto producto) {
-		this.id = id;
+	public LugarDeRecogida(String descripcion, double longitud, double latitud) {
 		this.descripcion = descripcion;
 		this.longitud = longitud;
 		this.latitud = latitud;
-		this.producto = producto;
 	}
 
 	// Getters y Setters
@@ -72,14 +66,6 @@ public class LugarDeRecogida implements Identificable {
 
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
-	}
-
-	public Producto getProducto() {
-		return producto;
-	}
-
-	public void setProducto(Producto producto) {
-		this.producto = producto;
 	}
 
 	// Métodos auxiliares

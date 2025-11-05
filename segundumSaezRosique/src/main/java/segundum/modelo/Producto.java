@@ -52,15 +52,13 @@ public class Producto implements Identificable {
 
 	}
 
-	public Producto(String id, String titulo, String descripcion, double precio, EstadoProducto estado,
-			LocalDateTime fechaPublicacion, boolean envioDisponible, Categoria categoria, Usuario vendedor,
-			LugarDeRecogida recogida) {
-		this.id = id;
+	public Producto(String titulo, String descripcion, double precio, EstadoProducto estado, boolean envioDisponible,
+			Categoria categoria, Usuario vendedor, LugarDeRecogida recogida) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.estado = estado;
-		this.fechaPublicacion = fechaPublicacion;
+		this.fechaPublicacion = LocalDateTime.now();
 		this.visualizaciones = 0;
 		this.envioDisponible = envioDisponible;
 		this.categoria = categoria;
