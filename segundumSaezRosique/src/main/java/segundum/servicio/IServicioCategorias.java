@@ -1,5 +1,6 @@
 package segundum.servicio;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -10,7 +11,7 @@ import segundum.repositorio.RepositorioException;
 
 public interface IServicioCategorias {
 
-	void cargarJerarquiaCategorias(String ruta) throws RepositorioException, JAXBException;
+	void cargarJerarquiaCategorias(String ruta) throws RepositorioException, JAXBException, IOException;
 
 	void modificarDescripcionCategoria(String idCategoria, String nuevaDescripcion)
 			throws RepositorioException, EntidadNoEncontrada;

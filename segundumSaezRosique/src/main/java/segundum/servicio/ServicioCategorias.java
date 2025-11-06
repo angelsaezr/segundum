@@ -1,6 +1,7 @@
 package segundum.servicio;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,51 +20,35 @@ public class ServicioCategorias implements IServicioCategorias {
 	private Repositorio<Categoria, String> repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
 
 	@Override
-	public void cargarJerarquiaCategorias(String ruta) throws RepositorioException, JAXBException {
-		if (ruta == null || ruta.isEmpty())
-			throw new IllegalArgumentException("ruta: no debe ser nula ni vacía");
+	public void cargarJerarquiaCategorias(String ruta) throws RepositorioException, JAXBException, IOException {
 
-		// Leer XML con JAXB
-		File archivo = new File(ruta);
-		if (!archivo.exists())
-			throw new IllegalArgumentException("El fichero indicado no existe: " + ruta);
+		InputStream input = this.getClass().getClassLoader().getResourceAsStream(ruta);
+		if (input == null)
+			throw new IllegalArgumentException("No se encontró el recurso en el classpath: " + ruta);
 
 		JAXBContext contexto = JAXBContext.newInstance(Categoria.class);
 		Unmarshaller unmarshaller = contexto.createUnmarshaller();
 
-		Categoria categoriaRaiz = (Categoria) unmarshaller.unmarshal(archivo);
+		Categoria categoriaRaiz = (Categoria) unmarshaller.unmarshal(input);
+		input.close();
 
-		// Evitar duplicar categorías raíz
-		List<Categoria> existentes = repositorioCategorias.getAll();
-		for (Categoria c : existentes) {
-			if (c.getNombre().equalsIgnoreCase(categoriaRaiz.getNombre())) {
-				return;
-			}
-		}
+		// Toda la jerarquía tiene bien enlazado el padre
+		enlazarPadresRecursivamente(categoriaRaiz, null);
 
-		// Guardar toda la jerarquía recursivamente
-		guardarJerarquia(categoriaRaiz, null);
-
+		// Persistir solo la raíz (gracias al cascade = ALL se guardará toda la
+		// jerarquía)
+		repositorioCategorias.add(categoriaRaiz);
 	}
 
-	private void guardarJerarquia(Categoria categoria, Categoria padre) throws RepositorioException, JAXBException {
-
-		if (categoria == null)
-			throw new IllegalArgumentException("categoria: no debe ser nula");
-		if (categoria.getNombre() == null || categoria.getNombre().isEmpty())
-			throw new IllegalArgumentException("categoria.nombre: no debe ser nulo ni vacío");
-		if (padre != null && (padre.getId() == null || padre.getId().isEmpty()))
-			throw new IllegalArgumentException("padre.id: no debe ser nulo ni vacío si padre no es nulo");
-
+	// Asigna el categoriaPadre a todos los nodos de la jerarquía.
+	private void enlazarPadresRecursivamente(Categoria categoria, Categoria padre) {
 		categoria.setCategoriaPadre(padre);
-		repositorioCategorias.add(categoria);
 
 		if (categoria.getSubcategorias() != null) {
 			for (Categoria sub : categoria.getSubcategorias()) {
-				guardarJerarquia(sub, categoria);
+				enlazarPadresRecursivamente(sub, categoria);
 			}
 		}
-
 	}
 
 	@Override
