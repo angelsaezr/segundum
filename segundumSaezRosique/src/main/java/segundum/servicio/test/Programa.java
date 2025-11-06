@@ -1,11 +1,8 @@
 package segundum.servicio.test;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import segundum.modelo.Categoria;
 import segundum.servicio.FactoriaServicios;
-import segundum.servicio.IServicioCategorias;
 import segundum.servicio.IServicioUsuarios;
 
 public class Programa {
@@ -33,20 +30,22 @@ public class Programa {
 		servicioUsuarios.modificarUsuario(id, emailModificado, null, null, null, null, null, false);
 		System.out.println("CORREO MODIFICADO: " + emailModificado);
 
-		IServicioCategorias servicioCategorias = FactoriaServicios.getServicio(IServicioCategorias.class);
-
-		servicioCategorias.cargarJerarquiaCategorias("categoriasXML/Software.xml");
-
-		List<Categoria> raiz = servicioCategorias.getCategoriasRaiz();
-		for (Categoria c : raiz) {
-			System.out.println("Raíz: " + c.getNombre());
-		}
-
-		Categoria primera = raiz.get(0);
-		List<Categoria> hijos = servicioCategorias.getDescendientesCategoria(primera.getId());
-		System.out.println("Descendientes de " + primera.getNombre() + ": " + hijos.size());
-
-		System.out.println("FIN.");
+		/*
+		 * IServicioCategorias servicioCategorias =
+		 * FactoriaServicios.getServicio(IServicioCategorias.class);
+		 * 
+		 * servicioCategorias.cargarJerarquiaCategorias("categoriasXML/Software.xml");
+		 * 
+		 * List<Categoria> raiz = servicioCategorias.getCategoriasRaiz(); for (Categoria
+		 * c : raiz) { System.out.println("Raíz: " + c.getNombre()); }
+		 * 
+		 * Categoria primera = raiz.get(0); List<Categoria> hijos =
+		 * servicioCategorias.getDescendientesCategoria(primera.getId());
+		 * System.out.println("Descendientes de " + primera.getNombre() + ": " +
+		 * hijos.size());
+		 * 
+		 * System.out.println("FIN.");
+		 */
 
 	}
 
