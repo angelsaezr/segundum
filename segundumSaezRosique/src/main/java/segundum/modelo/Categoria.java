@@ -12,28 +12,42 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import segundum.repositorio.Identificable;
 
 @Entity
 @Table(name = "categorias")
+@XmlRootElement(name = "categoria")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Categoria implements Identificable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
+	@XmlAttribute
 	private String id;
 
+	@XmlElement
 	private String nombre;
 
 	@Lob
+	@XmlTransient
 	private String descripcion;
 
+	@XmlAttribute
 	private String ruta;
 
 	@OneToMany(mappedBy = "categoriaPadre", cascade = CascadeType.ALL)
+	@XmlElement(name = "categoria")
 	private List<Categoria> subcategorias = new LinkedList<>();
 
 	@ManyToOne
+	@XmlTransient
 	private Categoria categoriaPadre;
 
 	// Constructores

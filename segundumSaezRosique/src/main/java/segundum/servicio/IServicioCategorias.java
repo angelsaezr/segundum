@@ -2,15 +2,20 @@ package segundum.servicio;
 
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import segundum.modelo.Categoria;
+import segundum.repositorio.EntidadNoEncontrada;
+import segundum.repositorio.RepositorioException;
 
 public interface IServicioCategorias {
 
-	void cargarJerarquiaCategorias(String ruta);
+	void cargarJerarquiaCategorias(String ruta) throws RepositorioException, JAXBException;
 
-	void modificarDescripcionCategoria(String idCategoria, String nuevaDescripcion);
+	void modificarDescripcionCategoria(String idCategoria, String nuevaDescripcion)
+			throws RepositorioException, EntidadNoEncontrada;
 
-	List<Categoria> getCategoriasRaiz();
+	List<Categoria> getCategoriasRaiz() throws RepositorioException, EntidadNoEncontrada;
 
-	List<Categoria> getDescendientesCategoria(String idCategoria);
+	List<Categoria> getDescendientesCategoria(String idCategoria) throws RepositorioException, EntidadNoEncontrada;
 }
