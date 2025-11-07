@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -26,6 +28,7 @@ import segundum.repositorio.Identificable;
 public class Categoria implements Identificable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	@XmlAttribute
 	private String id;
 
