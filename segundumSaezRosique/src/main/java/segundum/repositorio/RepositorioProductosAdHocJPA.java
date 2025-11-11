@@ -2,6 +2,7 @@ package segundum.repositorio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -21,9 +22,8 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 	}
 
 	@Override
-	public List<Producto> buscarProductos(String idCategoria, String texto, EstadoProducto estado, Double precioMax)
-			throws RepositorioException {
-
+	public List<Producto> buscarProductos(Set<String> idsCategoria, String texto,
+			List<EstadoProducto> estadosPermitidos, Double precioMax) throws RepositorioException {
 		try {
 			EntityManager em = EntityManagerHelper.getEntityManager();
 
@@ -32,16 +32,17 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 
 			List<String> condiciones = new ArrayList<>();
 
-			if (idCategoria != null && !idCategoria.trim().isEmpty()) {
-				condiciones.add("p.categoria.id = :idCategoria");
+			if (idsCategoria != null && !idsCategoria.isEmpty()) {
+				sb.append("JOIN p.categoria c ");
+				condiciones.add("c.id IN :idsCategoria");
 			}
 
 			if (texto != null && !texto.trim().isEmpty()) {
 				condiciones.add("(LOWER(p.titulo) LIKE :texto OR LOWER(p.descripcion) LIKE :texto)");
 			}
 
-			if (estado != null) {
-				condiciones.add("p.estado = :estado");
+			if (estadosPermitidos != null && !estadosPermitidos.isEmpty()) {
+				condiciones.add("p.estado IN :estados");
 			}
 
 			if (precioMax != null) {
@@ -53,10 +54,11 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 			}
 
 			TypedQuery<Producto> query = em.createQuery(sb.toString(), Producto.class);
-			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
+			query.setHint(QueryHints.REFRESH, HintValues.TRUE); // forzar refresco si hay cache
+																// [web:95][web:98][web:100]
 
-			if (idCategoria != null && !idCategoria.trim().isEmpty()) {
-				query.setParameter("idCategoria", idCategoria);
+			if (idsCategoria != null && !idsCategoria.isEmpty()) {
+				query.setParameter("idsCategoria", idsCategoria);
 			}
 
 			if (texto != null && !texto.trim().isEmpty()) {
@@ -64,8 +66,8 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 				query.setParameter("texto", pattern);
 			}
 
-			if (estado != null) {
-				query.setParameter("estado", estado);
+			if (estadosPermitidos != null && !estadosPermitidos.isEmpty()) {
+				query.setParameter("estados", estadosPermitidos);
 			}
 
 			if (precioMax != null) {
@@ -73,7 +75,6 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 			}
 
 			return query.getResultList();
-
 		} catch (RuntimeException e) {
 			throw new RepositorioException("Error buscando productos", e);
 		} finally {

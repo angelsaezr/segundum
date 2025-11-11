@@ -1,41 +1,47 @@
 package segundum.servicio;
 
+import java.time.LocalDate;
+
 public class ProductoResumenMensual {
 
-    private String idProducto;
-    private String titulo;
-    private int visualizaciones;
+	private final String idProducto;
+	private final String titulo;
+	private final double precio;
+	private final LocalDate fechaPublicacion;
+	private final String nombreCategoria;
+	private final int visualizaciones;
 
-    public ProductoResumenMensual() {
-    }
+	public ProductoResumenMensual(String idProducto, String titulo, double precio, LocalDate fechaPublicacion,
+			String nombreCategoria, int visualizaciones) {
+		this.idProducto = idProducto;
+		this.titulo = titulo;
+		this.precio = precio;
+		this.fechaPublicacion = fechaPublicacion;
+		this.nombreCategoria = nombreCategoria;
+		this.visualizaciones = visualizaciones;
+	}
 
-    public String getIdProducto() {
-        return idProducto;
-    }
+	public String getIdProducto() {
+		return idProducto;
+	}
 
-    public void setIdProducto(String idProducto) {
-        this.idProducto = idProducto;
-    }
+	public String getTitulo() {
+		return titulo;
+	}
 
-    public String getTitulo() {
-        return titulo;
-    }
+	public double getPrecio() {
+		return precio;
+	}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+	public LocalDate getFechaPublicacion() {
+		return fechaPublicacion;
+	}
 
-    public int getVisualizaciones() {
-        return visualizaciones;
-    }
+	public String getNombreCategoria() {
+		return nombreCategoria;
+	}
 
-    public void setVisualizaciones(int visualizaciones) {
-        this.visualizaciones = visualizaciones;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductoResumenMensual [idProducto=" + idProducto + ", titulo=" + titulo + ", visualizaciones="
-                + visualizaciones + "]";
-    }
+	public int getVisualizaciones() {
+		return visualizaciones;
+	}
 }

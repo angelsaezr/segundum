@@ -2,7 +2,6 @@ package segundum.servicio;
 
 import java.util.List;
 
-import segundum.modelo.Categoria;
 import segundum.modelo.EstadoProducto;
 import segundum.modelo.Producto;
 import segundum.repositorio.EntidadNoEncontrada;
@@ -22,8 +21,9 @@ public interface IServicioProductos {
 
 	void incrementarVisualizaciones(String idProducto) throws RepositorioException, EntidadNoEncontrada;
 
-	List<ProductoResumenMensual> getResumenMensual(String idVendedor) throws RepositorioException, EntidadNoEncontrada;
+	public List<ProductoResumenMensual> getResumenMensual(String idVendedor, int mes, int año)
+			throws RepositorioException, EntidadNoEncontrada;
 
-	List<Producto> buscarProductos(String descripcion, Categoria categoria, EstadoProducto estado, Double precioMax)
+	List<Producto> buscarProductos(String descripcion, String idCategoria, EstadoProducto estado, Double precioMax)
 			throws RepositorioException;
 }

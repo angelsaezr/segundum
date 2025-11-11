@@ -1,5 +1,6 @@
 package segundum.modelo;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
 
@@ -7,6 +8,7 @@ import javax.persistence.Lob;
 public class LugarDeRecogida {
 
 	@Lob
+	@Column(name = "descripcion_recogida")
 	private String descripcion;
 
 	private double longitud;
