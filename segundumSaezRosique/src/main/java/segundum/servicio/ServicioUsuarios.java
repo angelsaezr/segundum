@@ -70,4 +70,21 @@ public class ServicioUsuarios implements IServicioUsuarios {
 		repositorio.update(usuario);
 	}
 
+	@Override
+	public Usuario login(String email, String clave) throws RepositorioException, EntidadNoEncontrada {
+		if (email == null || email.isEmpty())
+			throw new IllegalArgumentException("email: no debe ser nulo ni vacio");
+
+		if (clave == null || clave.isEmpty())
+			throw new IllegalArgumentException("clave: no debe ser nulo ni vacio");
+
+		for (Usuario usuario : repositorio.getAll()) {
+			if (usuario.getEmail().equals(email) && usuario.getClave().equals(clave)) {
+				return usuario;
+			}
+		}
+
+		throw new EntidadNoEncontrada("Usuario o clave incorrecta");
+	}
+
 }
