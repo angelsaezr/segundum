@@ -2,9 +2,13 @@ package segundum.web;
 
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import segundum.modelo.Usuario;
 import segundum.servicio.FactoriaServicios;
 import segundum.servicio.IServicioUsuarios;
 
@@ -17,6 +21,9 @@ public class LoginUsuarioWeb implements Serializable {
 	private String clave;
 
 	private IServicioUsuarios servicioUsuarios;
+
+	@Inject
+	private FacesContext facesContext;
 
 	public LoginUsuarioWeb() {
 		servicioUsuarios = FactoriaServicios.getServicio(IServicioUsuarios.class);
@@ -38,8 +45,19 @@ public class LoginUsuarioWeb implements Serializable {
 		this.clave = clave;
 	}
 
-	public String login() {
-		return "/segundum/home?faces-redirect=true";
+	public void login() {
+		// TODO comprobación de campos
+		try {
+			Usuario usuario = servicioUsuarios.login(email, clave);
+
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "",
+					"Usuario " + usuario.getNombre() + " creado correctamente"));
+		} catch (
+
+		Exception e) {
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", e.getMessage()));
+			e.printStackTrace();
+		}
 
 	}
 
