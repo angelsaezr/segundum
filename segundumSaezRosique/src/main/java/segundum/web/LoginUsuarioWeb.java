@@ -45,20 +45,21 @@ public class LoginUsuarioWeb implements Serializable {
 		this.clave = clave;
 	}
 
-	public void login() {
-		// TODO comprobación de campos
+	public String login() {
 		try {
 			Usuario usuario = servicioUsuarios.login(email, clave);
 
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"Usuario " + usuario.getNombre() + " logeado correctamente"));
-		} catch (
+					"Usuario " + usuario.getNombre() + " logueado correctamente"));
 
-		Exception e) {
+			return "home?faces-redirect=true";
+
+		} catch (Exception e) {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", e.getMessage()));
 			e.printStackTrace();
-		}
 
+			return null;
+		}
 	}
 
 }
