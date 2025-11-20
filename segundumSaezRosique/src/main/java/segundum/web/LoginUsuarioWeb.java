@@ -51,7 +51,7 @@ public class LoginUsuarioWeb implements Serializable {
 			Usuario usuario = servicioUsuarios.login(email, clave);
 
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"Usuario " + usuario.getNombre() + " creado correctamente"));
+					"Usuario " + usuario.getNombre() + " logeado correctamente"));
 		} catch (
 
 		Exception e) {
