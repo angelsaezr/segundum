@@ -8,37 +8,38 @@
 	<ui:define name="title">
 		Login
 	</ui:define>
+
 	<ui:param name="estilo2" value="current" />
+
 	<ui:define name="content">
 
-		<h:body>
-			<div style="width: 400px; margin: 100px auto;">
+		<div style="width: 400px; margin: 100px auto;">
 
-				<h:form>
+			<h:form>
 
-					<p:messages id="msgs" showDetail="true" closable="true"
-						autoUpdate="true" />
+				<p:messages id="msgs" showDetail="true" closable="true"
+					autoUpdate="true" />
 
-					<h:panelGrid columns="2">
+				<h:panelGrid columns="2">
 
-						<p:outputLabel value="Email:" for="email" />
-						<p:inputText id="email" value="#{loginUsuarioWeb.email}"
-							required="true" placeholder="Correo electrónico" />
+					<p:outputLabel value="Email:" for="email" />
+					<p:inputText id="email" value="#{loginUsuarioWeb.email}"
+						required="true" placeholder="Correo electrónico" />
 
-						<p:outputLabel value="Contraseña:" for="clave" />
-						<p:password id="clave" value="#{loginUsuarioWeb.clave}"
-							required="true" feedback="false" placeholder="Contraseña" />
+					<p:outputLabel value="Contraseña:" for="clave" />
+					<p:password id="clave" value="#{loginUsuarioWeb.clave}"
+						required="true" feedback="false" placeholder="Contraseña" />
 
-					</h:panelGrid>
+				</h:panelGrid>
 
-					<br />
+				<br />
 
-					<h:messages />
-					<p:commandButton value="Entrar" icon="pi pi-sign-in"
-						action="#{loginUsuarioWeb.login}" ajax="false" />
+				<h:messages />
+				<p:commandButton value="Entrar" icon="pi pi-sign-in"
+					action="#{loginUsuarioWeb.login}" ajax="false" />
 
-				</h:form>
-			</div>
-		</h:body>
+			</h:form>
+		</div>
+
 	</ui:define>
 </ui:composition>

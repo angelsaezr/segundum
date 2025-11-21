@@ -3,7 +3,7 @@ package segundum.repositorio;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
@@ -169,7 +169,7 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 
 			final String queryString = " SELECT t from " + getClase().getSimpleName() + " t ";
 
-			Query query = em.createQuery(queryString);
+			TypedQuery<T> query = em.createQuery(queryString, getClase());
 
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 
@@ -198,7 +198,7 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 
 			final String queryString = " SELECT t.id from " + getClase().getSimpleName() + " t ";
 
-			Query query = em.createQuery(queryString);
+			TypedQuery<String> query = em.createQuery(queryString, String.class);
 
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 
