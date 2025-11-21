@@ -49,6 +49,9 @@ public class LoginUsuarioWeb implements Serializable {
 		try {
 			Usuario usuario = servicioUsuarios.login(email, clave);
 
+			// Guarda usuario en sesión
+			facesContext.getExternalContext().getSessionMap().put("usuarioLogueado", usuario);
+
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 					"Usuario " + usuario.getNombre() + " logueado correctamente"));
 
@@ -57,8 +60,12 @@ public class LoginUsuarioWeb implements Serializable {
 		} catch (Exception e) {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", e.getMessage()));
 			e.printStackTrace();
-
 		}
+	}
+
+	public String logout() {
+		facesContext.getExternalContext().invalidateSession();
+		return "/segundum/login.xhtml?faces-redirect=true";
 	}
 
 }

@@ -14,7 +14,11 @@
 		<h:body>
 			<div style="width: 400px; margin: 100px auto;">
 
-				<h1>Bienvenido</h1>
+				<p:panel header="Bienvenido">
+					<p:button value="Ir al inicio" icon="pi pi-home"
+						href="#{request.contextPath}/index.xhtml" />
+				</p:panel>
+
 			</div>
 		</h:body>
 	</ui:define>
