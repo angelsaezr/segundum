@@ -55,7 +55,8 @@ public class LoginUsuarioWeb implements Serializable {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 					"Usuario " + usuario.getNombre() + " logueado correctamente"));
 
-			facesContext.getExternalContext().redirect("home.xhtml");
+			facesContext.getExternalContext()
+					.redirect(facesContext.getExternalContext().getRequestContextPath() + "/index.xhtml");
 
 		} catch (Exception e) {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", e.getMessage()));

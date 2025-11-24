@@ -20,37 +20,46 @@
 			<h1>
 				<a href="#{request.contextPath}/index.xhtml">SEGUNDUM</a>
 			</h1>
+
 			<!-- Nav -->
 			<nav id="nav">
 				<ul>
-					<li class="#{estilo1}"><a
-						href="#{request.contextPath}/index.xhtml">Inicio</a></li>
 
+					<!-- Botón Home -->
+					<li class="#{estilo1}"><p:button value="Inicio"
+							href="#{request.contextPath}/index.xhtml" icon="pi pi-home"
+							styleClass="ui-button-raised ui-button-rounded ui-button-secondary" />
+					</li>
+
+					<!-- Botón iniciar sesión -->
 					<ui:fragment rendered="#{sessionScope['usuarioLogueado'] == null}">
-						<li class="#{estilo2}"><a
-							href="#{request.contextPath}/segundum/login.xhtml">Iniciar
-								sesión</a></li>
+						<li class="#{estilo2}"><p:button value="Iniciar sesión"
+								icon="pi pi-sign-in"
+								href="#{request.contextPath}/segundum/login.xhtml"
+								styleClass="ui-button-raised ui-button-rounded ui-button-primary" />
+						</li>
 					</ui:fragment>
 
+					<!-- Botón cerrar sesión -->
 					<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
-						<li><h:form style="margin:0;">
-								<h:commandLink value="Cerrar sesión"
-									action="#{loginUsuarioWeb.logout}"
-									style="color:#ff4b4b; font-weight:bold;" />
+						<li class="#{estilo2}"><h:form>
+								<p:commandButton value="Cerrar sesión"
+									action="#{loginUsuarioWeb.logout}" icon="pi pi-sign-out"
+									ajax="false" update="@none"
+									styleClass="ui-button-raised ui-button-rounded ui-button-danger" />
 							</h:form></li>
 					</ui:fragment>
 
-
 				</ul>
-
-
 			</nav>
 		</section>
+
 		<section id="main">
 			<div class="container">
 				<ui:insert name="content" />
 			</div>
 		</section>
+
 		<ui:include src="/WEB-INF/template/footer.xhtml" />
 	</div>
 
