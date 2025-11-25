@@ -2,6 +2,7 @@ package segundum.servicio;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,9 @@ import segundum.repositorio.FactoriaRepositorios;
 import segundum.repositorio.Repositorio;
 import segundum.repositorio.RepositorioException;
 
-public class ServicioCategorias implements IServicioCategorias {
 
+public class ServicioCategorias implements IServicioCategorias, Serializable {
+	private static final long serialVersionUID = 8046103483783948175L;
 	private Repositorio<Categoria, String> repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
 
 	@Override

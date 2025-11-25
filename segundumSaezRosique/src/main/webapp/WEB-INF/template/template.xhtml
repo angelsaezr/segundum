@@ -49,6 +49,15 @@
 									styleClass="ui-button-raised ui-button-rounded ui-button-danger" />
 							</h:form></li>
 					</ui:fragment>
+					
+					<!-- Botón crear producto -->
+					<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
+						<li class="#{estilo2}"><p:button value="Crear producto"
+								icon="pi pi-plus-circle"
+								href="#{request.contextPath}/segundum/crearProducto.xhtml"
+								styleClass="ui-button-raised ui-button-rounded ui-button-primary" />
+						</li>
+					</ui:fragment>
 
 				</ul>
 			</nav>

@@ -1,5 +1,6 @@
 package segundum.servicio;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.Comparator;
@@ -17,8 +18,9 @@ import segundum.repositorio.Repositorio;
 import segundum.repositorio.RepositorioException;
 import segundum.repositorio.RepositorioProductosAdHoc;
 
-public class ServicioProductos implements IServicioProductos {
 
+public class ServicioProductos implements IServicioProductos, Serializable {
+	private static final long serialVersionUID = 8512931999424411536L;
 	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	private Repositorio<Producto, String> repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);
 	private Repositorio<Categoria, String> repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);

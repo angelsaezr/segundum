@@ -16,7 +16,8 @@ import segundum.servicio.IServicioUsuarios;
 @Named
 @ViewScoped
 public class LoginUsuarioWeb implements Serializable {
-
+	
+	Usuario usuarioLogueado;
 	private String email;
 	private String clave;
 
@@ -28,7 +29,15 @@ public class LoginUsuarioWeb implements Serializable {
 	public LoginUsuarioWeb() {
 		servicioUsuarios = FactoriaServicios.getServicio(IServicioUsuarios.class);
 	}
-
+	
+	public Usuario getUsuarioLogueado() {
+		return usuarioLogueado;
+	}
+	
+	public void setUsuarioLogueado(Usuario usuarioLogueado) {
+		this.usuarioLogueado = usuarioLogueado;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -47,13 +56,13 @@ public class LoginUsuarioWeb implements Serializable {
 
 	public void login() {
 		try {
-			Usuario usuario = servicioUsuarios.login(email, clave);
+			usuarioLogueado = servicioUsuarios.login(email, clave);
 
 			// Guarda usuario en sesión
-			facesContext.getExternalContext().getSessionMap().put("usuarioLogueado", usuario);
+			facesContext.getExternalContext().getSessionMap().put("usuarioLogueado", usuarioLogueado);
 
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"Usuario " + usuario.getNombre() + " logueado correctamente"));
+					"Usuario " + usuarioLogueado.getNombre() + " logueado correctamente"));
 
 			facesContext.getExternalContext()
 					.redirect(facesContext.getExternalContext().getRequestContextPath() + "/index.xhtml");
@@ -65,6 +74,7 @@ public class LoginUsuarioWeb implements Serializable {
 	}
 
 	public String logout() {
+		usuarioLogueado = null;
 		facesContext.getExternalContext().invalidateSession();
 		return "/segundum/login.xhtml?faces-redirect=true";
 	}

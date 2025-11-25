@@ -1,0 +1,138 @@
+<ui:composition template="/WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="title">
+		Crear Producto
+	</ui:define>
+
+	<ui:define name="content">
+		<h:body>
+
+			<h:form id="formCrearProducto">
+
+				<p:growl id="msgs" showDetail="true" life="4000" />
+
+				<p:panel header="Crear nuevo producto"
+					style="max-width: 600px; margin:auto;">
+
+					<!-- TÍTULO -->
+					<p:outputLabel for="titulo" value="Título:" />
+					<p:inputText id="titulo" value="#{crearProductoBean.titulo}"
+						required="true" requiredMessage="El título es obligatorio"
+						maxlength="100" />
+
+					<p:separator />
+
+					<!-- DESCRIPCIÓN -->
+					<p:outputLabel for="descripcion" value="Descripción:" />
+					<p:inputTextarea id="descripcion"
+						value="#{crearProductoBean.descripcion}" required="true"
+						requiredMessage="Debe escribir una descripción" autoResize="true"
+						rows="4" />
+
+					<p:separator />
+
+					<!-- PRECIO -->
+					<p:outputLabel for="precio" value="Precio (€):" />
+					<p:inputNumber id="precio" value="#{crearProductoBean.precio}"
+						required="true" minValue="0"
+						requiredMessage="El precio es obligatorio" />
+
+					<p:separator />
+
+					<!-- ESTADO -->
+					<p:outputLabel for="estado" value="Estado del producto:" />
+					<p:selectOneMenu id="estado" value="#{crearProductoBean.estado}"
+						required="true" requiredMessage="Debe seleccionar un estado">
+						<f:selectItems value="#{crearProductoBean.estadosProducto}"
+							var="e" itemValue="#{e}" itemLabel="#{e.label}" />
+					</p:selectOneMenu>
+
+					<p:separator />
+
+					<!-- ENVÍO DISPONIBLE -->
+					<p:selectBooleanCheckbox id="envio"
+						value="#{crearProductoBean.envioDisponible}" />
+					<p:outputLabel for="envio" value="Envío disponible" />
+
+					<p:separator />
+
+					<!-- CATEGORÍA PADRE -->
+					<p:outputLabel for="catPadre" value="Categoría:" />
+					<p:selectOneMenu id="catPadre"
+						value="#{crearProductoBean.idCategoriaSeleccionada}"
+						required="true" requiredMessage="Debe elegir una categoría"
+						style="width:100%">
+						<f:selectItem itemLabel="Seleccione categoría..." itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{crearProductoBean.categoriasDisponibles}"
+							var="c" itemValue="#{c.id}" itemLabel="#{c.nombre}" />
+						<p:ajax event="valueChange" update="subCats"
+							listener="#{crearProductoBean.cargarSubcategorias}" />
+					</p:selectOneMenu>
+
+					<p:separator />
+
+					<!-- SUBCATEGORÍAS DINÁMICAS -->
+					<p:outputLabel for="subCats" value="Subcategoría:" />
+					<p:selectOneMenu id="subCats"
+						value="#{crearProductoBean.idCategoriaSeleccionada}"
+						style="width:100%"
+						rendered="#{not empty crearProductoBean.subcategorias}">
+						<f:selectItem itemLabel="Seleccione subcategoría..." itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{crearProductoBean.subcategorias}" var="s"
+							itemValue="#{s.id}" itemLabel="#{s.nombre}" />
+					</p:selectOneMenu>
+
+					<p:separator />
+
+					<!-- LUGAR DE RECOGIDA -->
+					<p:outputLabel value="Lugar de recogida:" />
+
+					<p:outputLabel for="descRec" value="Descripción del lugar:" />
+					<p:inputTextarea id="descRec"
+						value="#{crearProductoBean.descripcionRecogida}" required="true"
+						rows="3" requiredMessage="Describa el lugar de recogida" />
+
+					<p:outputLabel for="long" value="Longitud:" />
+					<p:inputNumber id="long" value="#{crearProductoBean.longitud}"
+						required="true" minValue="-180" maxValue="180"
+						requiredMessage="Especifique longitud válida" />
+
+					<p:outputLabel for="lat" value="Latitud:" />
+					<p:inputNumber id="lat" value="#{crearProductoBean.latitud}"
+						required="true" minValue="-90" maxValue="90"
+						requiredMessage="Especifique latitud válida" />
+
+					<p:separator />
+
+					<!-- BOTÓN CREAR -->
+					<p:commandButton value="Crear producto" icon="pi pi-check"
+						actionListener="#{crearProductoBean.crearProducto}" update="msgs"
+						process="@form" oncomplete="PF('dlgConfirm').show();" />
+
+				</p:panel>
+			</h:form>
+
+			<!-- DIÁLOGO DE CONFIRMACIÓN -->
+			<p:dialog widgetVar="dlgConfirm" modal="true" header="Confirmación"
+				width="350">
+				<h:panelGrid columns="1" cellpadding="5">
+					<h:outputText value="¿Desea crear este producto?" />
+					<p:commandButton value="Sí, crear" icon="pi pi-check"
+						action="#{crearProductoBean.crearProducto}"
+						update="msgs, formCrearProducto"
+						oncomplete="PF('dlgConfirm').hide();" />
+					<p:commandButton value="Cancelar" icon="pi pi-times"
+						onclick="PF('dlgConfirm').hide();" type="button" />
+				</h:panelGrid>
+			</p:dialog>
+
+		</h:body>
+	</ui:define>
+</ui:composition>
