@@ -26,4 +26,6 @@ public interface IServicioProductos {
 
 	List<Producto> buscarProductos(String descripcion, String idCategoria, EstadoProducto estado, Double precioMax)
 			throws RepositorioException;
+
+	List<Producto> getProductosDeVendedor(String idVendedor) throws RepositorioException;
 }

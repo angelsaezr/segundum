@@ -1,0 +1,63 @@
+<ui:composition template="/WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="title">Mis Productos</ui:define>
+
+	<ui:define name="content">
+
+		<h:panelGroup rendered="#{sessionScope['usuarioLogueado'] == null}">
+			<p:message severity="warn"
+				detail="Debe iniciar sesión para ver esta página." />
+			<p:button value="Iniciar sesión" icon="pi pi-sign-in"
+				href="#{request.contextPath}/segundum/login.xhtml" />
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{sessionScope['usuarioLogueado'] != null}">
+			<h2>Productos publicados por
+				#{sessionScope['usuarioLogueado'].nombre}</h2>
+
+			<p:dataTable value="#{misProductosBean.misProductos}" var="p"
+				emptyMessage="No tienes productos publicados." rows="10"
+				paginator="true">
+
+
+				<p:column headerText="Título">
+					#{p.titulo}
+				</p:column>
+
+				<p:column headerText="Precio">
+					#{p.precio} €
+				</p:column>
+
+				<p:column headerText="Estado">
+					#{p.estado}
+				</p:column>
+
+				<p:column headerText="Fecha Publicación">
+					<f:facet name="body">
+						#{p.fechaPublicacion.toLocalDate()}
+					</f:facet>
+				</p:column>
+
+				<p:column headerText="Categoría">
+					#{p.categoria.nombre}
+				</p:column>
+
+				<p:column headerText="Visualizaciones">
+					#{p.visualizaciones}
+				</p:column>
+
+				<p:column headerText="Acciones">
+					<p:button icon="pi pi-eye" tooltip="Ver detalle"
+						href="#{request.contextPath}/segundum/verProducto.xhtml?id=#{p.id}" /> <!-- TODO -->
+				</p:column>
+
+			</p:dataTable>
+		</h:panelGroup>
+
+	</ui:define>
+</ui:composition>

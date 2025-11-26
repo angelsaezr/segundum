@@ -75,17 +75,17 @@ public class CrearProductoBean implements Serializable {
 			mostrarMensaje("Error al crear producto", e.getMessage());
 		}
 	}
-	
+
 	public void cargarSubcategorias() {
-	    try {
-	        if (idCategoriaSeleccionada != null && !idCategoriaSeleccionada.isEmpty()) {
-	            subcategorias = servicioCategorias.getDescendientesCategoria(idCategoriaSeleccionada);
-	        }
-	    } catch (Exception e) {
-	        subcategorias = null;
-	    }
+		try {
+			if (idCategoriaSeleccionada != null && !idCategoriaSeleccionada.isEmpty()) {
+				subcategorias = servicioCategorias.getDescendientesCategoria(idCategoriaSeleccionada);
+			}
+		} catch (Exception e) {
+			subcategorias = null;
+		}
 	}
-	
+
 	// ---------- Métodos auxiliares ----------
 	private void limpiarFormulario() {
 		titulo = null;
@@ -155,9 +155,9 @@ public class CrearProductoBean implements Serializable {
 	public List<Categoria> getCategoriasDisponibles() {
 		return categoriasDisponibles;
 	}
-	
+
 	public List<Categoria> getSubcategorias() {
-	    return subcategorias;
+		return subcategorias;
 	}
 
 	public String getDescripcionRecogida() {
@@ -183,9 +183,9 @@ public class CrearProductoBean implements Serializable {
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
-	
+
 	public EstadoProducto[] getEstadosProducto() {
-	    return EstadoProducto.values();
+		return EstadoProducto.values();
 	}
 
 }

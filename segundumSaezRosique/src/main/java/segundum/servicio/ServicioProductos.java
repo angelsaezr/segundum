@@ -18,7 +18,6 @@ import segundum.repositorio.Repositorio;
 import segundum.repositorio.RepositorioException;
 import segundum.repositorio.RepositorioProductosAdHoc;
 
-
 public class ServicioProductos implements IServicioProductos, Serializable {
 	private static final long serialVersionUID = 8512931999424411536L;
 	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
@@ -193,6 +192,16 @@ public class ServicioProductos implements IServicioProductos, Serializable {
 		RepositorioProductosAdHoc repoAdHoc = (RepositorioProductosAdHoc) this.repositorioProductos;
 
 		return repoAdHoc.buscarProductos(idsCategoriasValidas, texto, estadosPermitidos, precioMax);
+	}
+
+	@Override
+	public List<Producto> getProductosDeVendedor(String idVendedor) throws RepositorioException {
+		if (idVendedor == null || idVendedor.isEmpty())
+			throw new IllegalArgumentException("idVendedor no puede ser vacío");
+
+		return repositorioProductos.getAll().stream()
+				.filter(p -> p.getVendedor() != null && p.getVendedor().getId().equals(idVendedor))
+				.sorted(Comparator.comparing(Producto::getFechaPublicacion).reversed()).collect(Collectors.toList());
 	}
 
 }
