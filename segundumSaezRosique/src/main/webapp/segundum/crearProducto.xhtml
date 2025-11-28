@@ -39,8 +39,8 @@
 					<!-- PRECIO -->
 					<p:outputLabel for="precio" value="Precio (€):" />
 					<p:inputNumber id="precio" value="#{crearProductoBean.precio}"
-						required="true" minValue="0"
-						requiredMessage="El precio es obligatorio" />
+						required="true" minValue="0" decimalPlaces="2"
+						thousandSeparator="." decimalSeparator="," />
 
 					<p:separator />
 
@@ -61,33 +61,35 @@
 
 					<p:separator />
 
-					<!-- CATEGORÍA PADRE -->
-					<p:outputLabel for="catPadre" value="Categoría:" />
-					<p:selectOneMenu id="catPadre"
-						value="#{crearProductoBean.idCategoriaSeleccionada}"
-						required="true" requiredMessage="Debe elegir una categoría"
-						style="width:100%">
-						<f:selectItem itemLabel="Seleccione categoría..." itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems value="#{crearProductoBean.categoriasDisponibles}"
-							var="c" itemValue="#{c.id}" itemLabel="#{c.nombre}" />
-						<p:ajax event="valueChange" update="subCats"
-							listener="#{crearProductoBean.cargarSubcategorias}" />
-					</p:selectOneMenu>
+					<!-- CATEGORÍA-->
 
-					<p:separator />
+					<p:outputLabel value="Categoría:" />
 
-					<!-- SUBCATEGORÍAS DINÁMICAS -->
-					<p:outputLabel for="subCats" value="Subcategoría:" />
-					<p:selectOneMenu id="subCats"
-						value="#{crearProductoBean.idCategoriaSeleccionada}"
-						style="width:100%"
-						rendered="#{not empty crearProductoBean.subcategorias}">
-						<f:selectItem itemLabel="Seleccione subcategoría..." itemValue=""
-							noSelectionOption="true" />
-						<f:selectItems value="#{crearProductoBean.subcategorias}" var="s"
-							itemValue="#{s.id}" itemLabel="#{s.nombre}" />
-					</p:selectOneMenu>
+					<p:inputText id="categoriaSeleccionada"
+						value="#{crearProductoBean.categoriaSeleccionada.nombre}"
+						readonly="true" style="width:100%" />
+
+					<p:tree id="categoriaTree"
+						value="#{crearProductoBean.raizCategorias}" var="cat"
+						selectionMode="single"
+						selection="#{crearProductoBean.nodoSeleccionado}" dynamic="true"
+						cache="false" style="max-height: 300px; overflow-y: auto;"
+						expandOnSelect="false" expandedIcon="pi pi-folder-open"
+						collapsedIcon="pi pi-folder">
+
+						<p:ajax event="expand"
+							listener="#{crearProductoBean.onNodeExpand}" />
+
+						<p:ajax event="select"
+							listener="#{crearProductoBean.onNodeSelect}"
+							update="formCrearProducto:categoriaSeleccionada" />
+
+						<p:treeNode>
+							<h:outputText value="#{cat.nombre}" />
+						</p:treeNode>
+					</p:tree>
+
+					<p:message for="categoriaTree" />
 
 					<p:separator />
 
@@ -101,13 +103,13 @@
 
 					<p:outputLabel for="long" value="Longitud:" />
 					<p:inputNumber id="long" value="#{crearProductoBean.longitud}"
-						required="true" minValue="-180" maxValue="180"
-						requiredMessage="Especifique longitud válida" />
+						required="true" minValue="-180" maxValue="180" decimalPlaces="6"
+						thousandSeparator="." decimalSeparator="," />
 
 					<p:outputLabel for="lat" value="Latitud:" />
 					<p:inputNumber id="lat" value="#{crearProductoBean.latitud}"
-						required="true" minValue="-90" maxValue="90"
-						requiredMessage="Especifique latitud válida" />
+						required="true" minValue="-90" maxValue="90" decimalPlaces="6"
+						thousandSeparator="." decimalSeparator="," />
 
 					<p:separator />
 

@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.NodeExpandEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import segundum.modelo.Categoria;
 import segundum.modelo.EstadoProducto;
@@ -31,41 +35,101 @@ public class CrearProductoBean implements Serializable {
 	private IServicioCategorias servicioCategorias;
 
 	@Inject
-	private LoginUsuarioWeb loginUsuarioWeb;
+	private FacesContext facesContext;
 
 	// ---------- Datos del formulario ----------
 	private String titulo;
 	private String descripcion;
-	private double precio;
+	private Double precio;
 	private EstadoProducto estado;
 	private boolean envioDisponible;
 
-	private String idCategoriaSeleccionada;
-	private List<Categoria> categoriasDisponibles;
-	private List<Categoria> subcategorias;
+	private List<Categoria> categoriasRaiz;
+	private TreeNode<Categoria> raizCategorias;
+	private TreeNode<Categoria> nodoSeleccionado;
+	private Categoria categoriaSeleccionada;
 
 	// Lugar de recogida
 	private String descripcionRecogida;
-	private double longitud;
-	private double latitud;
+	private Double longitud;
+	private Double latitud;
 
-	// ---------- Inicialización ----------
 	@PostConstruct
 	public void init() {
 		try {
-			categoriasDisponibles = servicioCategorias.getCategoriasRaiz();
-		} catch (RepositorioException | EntidadNoEncontrada e) {
+			categoriasRaiz = servicioCategorias.getCategoriasRaiz();
+
+			raizCategorias = new DefaultTreeNode<Categoria>(null, null);
+			raizCategorias.setExpanded(true);
+
+			for (Categoria c : categoriasRaiz) {
+				TreeNode<Categoria> nodo = new DefaultTreeNode<>(c, raizCategorias);
+				nodo.setExpanded(false);
+
+				// Solo si puede tener hijos, añadimos un hijo vacío para marcarlo como
+				// expandible
+				if (!c.getSubcategorias().isEmpty()) {
+					new DefaultTreeNode<Categoria>(null, nodo); // placeholder
+				}
+			}
+
+		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	/** Carga hijos al expandir */
+	@SuppressWarnings("unchecked")
+	public void onNodeExpand(NodeExpandEvent event) {
+		TreeNode<Categoria> nodo = (TreeNode<Categoria>) event.getTreeNode();
+		Categoria categoria = nodo.getData();
+
+		// Si el primer hijo es placeholder, lo limpiamos
+		if (!nodo.getChildren().isEmpty() && nodo.getChildren().get(0).getData() == null) {
+			nodo.getChildren().clear();
+		} else if (!nodo.getChildren().isEmpty()) {
+			return;
+		}
+
+		List<Categoria> subcategorias = categoria.getSubcategorias();
+
+		for (Categoria sub : subcategorias) {
+			TreeNode<Categoria> hijo = new DefaultTreeNode<>(sub, nodo);
+
+			if (!sub.getSubcategorias().isEmpty()) {
+				new DefaultTreeNode<Categoria>(null, hijo);
+			}
+		}
+	}
+
+	public void onNodeSelect() {
+		if (nodoSeleccionado != null && nodoSeleccionado.getData() != null) {
+			categoriaSeleccionada = nodoSeleccionado.getData();
 		}
 	}
 
 	// ---------- Acción principal ----------
 	public void crearProducto() {
 		try {
-			Usuario vendedor = loginUsuarioWeb.getUsuarioLogueado();
+			Usuario vendedor = facesContext.getExternalContext().getSessionMap()
+					.get("usuarioLogueado") instanceof Usuario
+							? (Usuario) facesContext.getExternalContext().getSessionMap().get("usuarioLogueado")
+							: null;
+
+			if (vendedor == null) {
+				mostrarMensaje("Error de sesión", "Debe iniciar sesión antes de crear un producto.");
+				return;
+			}
+
+			if (titulo == null || titulo.isEmpty() || descripcion == null || descripcion.isEmpty() || precio == null
+					|| estado == null || descripcionRecogida == null || descripcionRecogida.isEmpty()
+					|| longitud == null || latitud == null || categoriaSeleccionada == null) {
+				mostrarMensaje("Datos incompletos", "Por favor, complete todos los campos obligatorios.");
+				return;
+			}
 
 			String idNuevo = servicioProductos.altaProducto(titulo, descripcion, precio, estado, envioDisponible,
-					idCategoriaSeleccionada, vendedor.getId(), descripcionRecogida, longitud, latitud);
+					categoriaSeleccionada.getId(), vendedor.getId(), descripcionRecogida, longitud, latitud);
 
 			mostrarMensaje("Producto creado", "El producto se ha creado con ID: " + idNuevo);
 			PrimeFaces.current().ajax().update("formCrearProducto");
@@ -76,27 +140,18 @@ public class CrearProductoBean implements Serializable {
 		}
 	}
 
-	public void cargarSubcategorias() {
-		try {
-			if (idCategoriaSeleccionada != null && !idCategoriaSeleccionada.isEmpty()) {
-				subcategorias = servicioCategorias.getDescendientesCategoria(idCategoriaSeleccionada);
-			}
-		} catch (Exception e) {
-			subcategorias = null;
-		}
-	}
-
 	// ---------- Métodos auxiliares ----------
 	private void limpiarFormulario() {
 		titulo = null;
 		descripcion = null;
-		precio = 0;
+		precio = null;
 		estado = null;
 		envioDisponible = false;
-		idCategoriaSeleccionada = null;
+		nodoSeleccionado = null;
+		categoriaSeleccionada = null;
 		descripcionRecogida = null;
-		longitud = 0;
-		latitud = 0;
+		longitud = null;
+		latitud = null;
 	}
 
 	private void mostrarMensaje(String titulo, String detalle) {
@@ -120,11 +175,11 @@ public class CrearProductoBean implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public double getPrecio() {
+	public Double getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(Double precio) {
 		this.precio = precio;
 	}
 
@@ -144,20 +199,26 @@ public class CrearProductoBean implements Serializable {
 		this.envioDisponible = envioDisponible;
 	}
 
-	public String getIdCategoriaSeleccionada() {
-		return idCategoriaSeleccionada;
+	public TreeNode<Categoria> getRaizCategorias() {
+		return raizCategorias;
 	}
 
-	public void setIdCategoriaSeleccionada(String idCategoriaSeleccionada) {
-		this.idCategoriaSeleccionada = idCategoriaSeleccionada;
+	public TreeNode<Categoria> getNodoSeleccionado() {
+		return nodoSeleccionado;
 	}
 
-	public List<Categoria> getCategoriasDisponibles() {
-		return categoriasDisponibles;
+	public void setNodoSeleccionado(TreeNode<Categoria> nodoSeleccionado) {
+		this.nodoSeleccionado = nodoSeleccionado;
+
+		if (nodoSeleccionado != null && nodoSeleccionado.getData() != null) {
+			categoriaSeleccionada = nodoSeleccionado.getData();
+		} else {
+			categoriaSeleccionada = null;
+		}
 	}
 
-	public List<Categoria> getSubcategorias() {
-		return subcategorias;
+	public Categoria getCategoriaSeleccionada() {
+		return categoriaSeleccionada;
 	}
 
 	public String getDescripcionRecogida() {
@@ -168,19 +229,19 @@ public class CrearProductoBean implements Serializable {
 		this.descripcionRecogida = descripcionRecogida;
 	}
 
-	public double getLongitud() {
+	public Double getLongitud() {
 		return longitud;
 	}
 
-	public void setLongitud(double longitud) {
+	public void setLongitud(Double longitud) {
 		this.longitud = longitud;
 	}
 
-	public double getLatitud() {
+	public Double getLatitud() {
 		return latitud;
 	}
 
-	public void setLatitud(double latitud) {
+	public void setLatitud(Double latitud) {
 		this.latitud = latitud;
 	}
 
