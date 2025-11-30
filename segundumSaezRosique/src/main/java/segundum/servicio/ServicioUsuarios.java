@@ -1,5 +1,6 @@
 package segundum.servicio;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import segundum.modelo.Usuario;
@@ -8,8 +9,9 @@ import segundum.repositorio.FactoriaRepositorios;
 import segundum.repositorio.Repositorio;
 import segundum.repositorio.RepositorioException;
 
-public class ServicioUsuarios implements IServicioUsuarios {
-
+public class ServicioUsuarios implements IServicioUsuarios, Serializable  {
+	private static final long serialVersionUID = -8612876944980546866L;
+	
 	private Repositorio<Usuario, String> repositorio = FactoriaRepositorios.getRepositorio(Usuario.class);
 
 	@Override

@@ -16,8 +16,7 @@ import segundum.servicio.IServicioProductos;
 @Named
 @ViewScoped
 public class MisProductosBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5124141022361969440L;
 
 	@Inject
 	private IServicioProductos servicioProductos;

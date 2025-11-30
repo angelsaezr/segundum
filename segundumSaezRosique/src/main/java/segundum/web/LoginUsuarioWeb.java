@@ -12,10 +12,10 @@ import segundum.modelo.Usuario;
 import segundum.servicio.FactoriaServicios;
 import segundum.servicio.IServicioUsuarios;
 
-@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class LoginUsuarioWeb implements Serializable {
+	private static final long serialVersionUID = -3858691394760749923L;
 	
 	Usuario usuarioLogueado;
 	private String email;
