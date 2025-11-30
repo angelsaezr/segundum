@@ -41,7 +41,7 @@
 					</ui:fragment>
 
 					<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
-						<li class="#{estilo2}"><p:button value="Crear producto"
+						<li><p:button value="Crear producto"
 								icon="pi pi-plus-circle"
 								href="#{request.contextPath}/segundum/crearProducto.xhtml"
 								styleClass="ui-button-raised ui-button-rounded ui-button-primary" />
@@ -50,13 +50,13 @@
 						<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
 							<li><p:button value="Mis productos" icon="pi pi-list"
 									href="#{request.contextPath}/segundum/misProductos.xhtml"
-									styleClass="ui-button-raised ui-button-rounded ui-button-secondary" /></li>
+									styleClass="ui-button-raised ui-button-rounded ui-button-primary" /></li>
 						</ui:fragment>
 						
 						<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
 							<li><p:button value="Buscar productos" icon="pi pi-search"
-									href="#{request.contextPath}/segundum/buscarProductos.xhtml"
-									styleClass="ui-button-raised ui-button-rounded ui-button-secondary" /></li>
+									href="#{request.contextPath}/segundum/buscarProducto.xhtml"
+									styleClass="ui-button-raised ui-button-rounded ui-button-primary" /></li>
 						</ui:fragment>
 
 

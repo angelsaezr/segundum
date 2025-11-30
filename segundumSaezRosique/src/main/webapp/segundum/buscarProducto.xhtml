@@ -1,0 +1,110 @@
+<ui:composition template="/WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="title">
+        Buscar Productos
+    </ui:define>
+
+	<ui:define name="content">
+		<h:body>
+
+			<h:form id="formBuscarProducto">
+
+				<p:growl id="msgs" showDetail="true" life="4000" />
+
+				<p:panel header="Buscador de productos"
+					style="max-width: 700px; margin:auto;">
+
+					<!-- DESCRIPCIÓN -->
+					<p:outputLabel for="desc" value="Descripción contiene:" />
+					<p:inputText id="desc" value="#{buscarProductoBean.descripcion}" />
+
+					<p:separator />
+
+					<!-- PRECIO -->
+					<p:outputLabel for="precioMax" value="Precio máximo (€):" />
+					<p:inputNumber id="precioMax"
+						value="#{buscarProductoBean.precioMax}" minValue="0"
+						decimalPlaces="2" thousandSeparator="." decimalSeparator="," />
+
+					<p:separator />
+
+					<!-- ESTADO -->
+					<p:outputLabel for="estado" value="Estado:" />
+					<p:selectOneMenu id="estado" value="#{buscarProductoBean.estado}">
+						<f:selectItem itemValue="" itemLabel="-- Cualquiera --" />
+						<f:selectItems value="#{buscarProductoBean.estadosProducto}"
+							var="e" itemValue="#{e}" itemLabel="#{e.label}" />
+					</p:selectOneMenu>
+
+					<p:separator />
+
+					<!-- CATEGORÍA -->
+					<p:outputLabel value="Categoría:" for="categoriaSeleccionada" />
+
+					<p:inputText id="categoriaSeleccionada"
+						value="#{buscarProductoBean.categoriaSeleccionada.nombre}"
+						readonly="true" style="width:100%" />
+
+					<p:tree id="categoriaTree"
+						value="#{buscarProductoBean.raizCategorias}" var="cat"
+						selectionMode="single"
+						selection="#{buscarProductoBean.nodoSeleccionado}" dynamic="true"
+						cache="false" style="max-height: 300px; overflow-y: auto;"
+						expandOnSelect="false" expandedIcon="pi pi-folder-open"
+						collapsedIcon="pi pi-folder">
+
+						<p:ajax event="expand"
+							listener="#{buscarProductoBean.onNodeExpand}" />
+
+						<p:ajax event="select"
+							listener="#{buscarProductoBean.onNodeSelect}"
+							update="formBuscarProducto:categoriaSeleccionada" />
+
+						<p:treeNode>
+							<h:outputText value="#{cat.nombre}" />
+						</p:treeNode>
+					</p:tree>
+
+					<p:separator />
+
+					<!-- BOTÓN BUSCAR -->
+					<p:commandButton value="Buscar" icon="pi pi-search"
+						action="#{buscarProductoBean.buscar}" update="resultados, msgs" />
+
+				</p:panel>
+
+				<br />
+
+				<!-- RESULTADOS -->
+				<p:dataTable id="resultados"
+					value="#{buscarProductoBean.resultados}" var="p" paginator="true"
+					rows="10" style="max-width:900px;margin:auto;">
+
+					<p:column headerText="Título">
+                        #{p.titulo}
+                    </p:column>
+
+					<p:column headerText="Precio">
+                        #{p.precio} €
+                    </p:column>
+
+					<p:column headerText="Estado">
+                        #{p.estado.label}
+                    </p:column>
+
+					<p:column headerText="Categoría">
+                        #{p.categoria.nombre}
+                    </p:column>
+
+				</p:dataTable>
+
+			</h:form>
+
+		</h:body>
+	</ui:define>
+</ui:composition>
