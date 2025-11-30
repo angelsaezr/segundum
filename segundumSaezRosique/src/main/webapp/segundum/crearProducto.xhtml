@@ -63,11 +63,11 @@
 
 					<!-- CATEGORÍA-->
 
-					<p:outputLabel value="Categoría:" />
+					<p:outputLabel value="Categoría:" for="categoriaSeleccionada" />
 
 					<p:inputText id="categoriaSeleccionada"
 						value="#{crearProductoBean.categoriaSeleccionada.nombre}"
-						readonly="true" style="width:100%" />
+						required="true" requiredMessage="Debe seleccionar una categoría" readonly="true" style="width:100%" />
 
 					<p:tree id="categoriaTree"
 						value="#{crearProductoBean.raizCategorias}" var="cat"
@@ -115,25 +115,28 @@
 
 					<!-- BOTÓN CREAR -->
 					<p:commandButton value="Crear producto" icon="pi pi-check"
-						actionListener="#{crearProductoBean.crearProducto}" update="msgs"
 						process="@form" oncomplete="PF('dlgConfirm').show();" />
 
+
 				</p:panel>
+
+				<!-- DIÁLOGO DE CONFIRMACIÓN -->
+				<p:dialog widgetVar="dlgConfirm" modal="true" header="Confirmación"
+					width="350">
+					<h:panelGrid columns="1" cellpadding="5">
+						<h:outputText value="¿Desea crear este producto?" />
+						<p:commandButton value="Sí, crear" icon="pi pi-check"
+							action="#{crearProductoBean.crearProducto}" process="@form"
+							update="msgs, formCrearProducto"
+							oncomplete="PF('dlgConfirm').hide();" />
+
+						<p:commandButton value="Cancelar" icon="pi pi-times"
+							onclick="PF('dlgConfirm').hide();" type="button" />
+					</h:panelGrid>
+				</p:dialog>
 			</h:form>
 
-			<!-- DIÁLOGO DE CONFIRMACIÓN -->
-			<p:dialog widgetVar="dlgConfirm" modal="true" header="Confirmación"
-				width="350">
-				<h:panelGrid columns="1" cellpadding="5">
-					<h:outputText value="¿Desea crear este producto?" />
-					<p:commandButton value="Sí, crear" icon="pi pi-check"
-						action="#{crearProductoBean.crearProducto}"
-						update="msgs, formCrearProducto"
-						oncomplete="PF('dlgConfirm').hide();" />
-					<p:commandButton value="Cancelar" icon="pi pi-times"
-						onclick="PF('dlgConfirm').hide();" type="button" />
-				</h:panelGrid>
-			</p:dialog>
+
 
 		</h:body>
 	</ui:define>

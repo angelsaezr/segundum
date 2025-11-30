@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -117,26 +118,27 @@ public class CrearProductoBean implements Serializable {
 							: null;
 
 			if (vendedor == null) {
-				mostrarMensaje("Error de sesión", "Debe iniciar sesión antes de crear un producto.");
+				mostrarMensaje("Error de sesión", "Debe iniciar sesión antes de crear un producto.", FacesMessage.SEVERITY_ERROR);
 				return;
 			}
 
 			if (titulo == null || titulo.isEmpty() || descripcion == null || descripcion.isEmpty() || precio == null
 					|| estado == null || descripcionRecogida == null || descripcionRecogida.isEmpty()
 					|| longitud == null || latitud == null || categoriaSeleccionada == null) {
-				mostrarMensaje("Datos incompletos", "Por favor, complete todos los campos obligatorios.");
+				mostrarMensaje("Datos incompletos", "Por favor, complete todos los campos obligatorios.", FacesMessage.SEVERITY_ERROR);
 				return;
 			}
 
 			String idNuevo = servicioProductos.altaProducto(titulo, descripcion, precio, estado, envioDisponible,
 					categoriaSeleccionada.getId(), vendedor.getId(), descripcionRecogida, longitud, latitud);
 
-			mostrarMensaje("Producto creado", "El producto se ha creado con ID: " + idNuevo);
+			mostrarMensaje("Producto creado", "El producto se ha creado con ID: " + idNuevo, FacesMessage.SEVERITY_INFO);
 			PrimeFaces.current().ajax().update("formCrearProducto");
 			limpiarFormulario();
 
 		} catch (RepositorioException | EntidadNoEncontrada | IllegalArgumentException e) {
-			mostrarMensaje("Error al crear producto", e.getMessage());
+			mostrarMensaje("Error al crear producto", e.getMessage(), FacesMessage.SEVERITY_ERROR);
+
 		}
 	}
 
@@ -154,9 +156,11 @@ public class CrearProductoBean implements Serializable {
 		latitud = null;
 	}
 
-	private void mostrarMensaje(String titulo, String detalle) {
-		// TODO
+	private void mostrarMensaje(String titulo, String detalle, FacesMessage.Severity severidad) {
+	    facesContext.addMessage(null, new FacesMessage(severidad, titulo, detalle));
+	    PrimeFaces.current().ajax().update("msgs");
 	}
+
 
 	// ---------- Getters y Setters ----------
 	public String getTitulo() {
