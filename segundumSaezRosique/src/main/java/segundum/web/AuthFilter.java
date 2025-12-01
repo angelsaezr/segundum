@@ -1,6 +1,7 @@
 package segundum.web;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,26 +13,25 @@ import javax.servlet.http.HttpSession;
 
 public class AuthFilter implements Filter {
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false);
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession(false);
 
-        // URLs públicas que no requieren login
-        String loginURI = req.getContextPath() + "/segundum/login.xhtml";
-        String indexURI = req.getContextPath() + "/index.xhtml";
-        String homeURI = req.getContextPath() + "/segundum/home.xhtml";
+		// URLs públicas que no requieren login
+		String loginURI = req.getContextPath() + "/segundum/login.xhtml";
+		String indexURI = req.getContextPath() + "/index.xhtml";
 
-        boolean loggedIn = (session != null) && (session.getAttribute("usuarioLogueado") != null);
-        boolean loginRequest = req.getRequestURI().equals(loginURI) || req.getRequestURI().equals(indexURI) || req.getRequestURI().equals(homeURI);
+		boolean loggedIn = (session != null) && (session.getAttribute("usuarioLogueado") != null);
+		boolean loginRequest = req.getRequestURI().equals(loginURI) || req.getRequestURI().equals(indexURI);
 
-        if (loggedIn || loginRequest) {
-            chain.doFilter(request, response);
-        } else {
-            res.sendRedirect(indexURI);
-        }
-    }
+		if (loggedIn || loginRequest) {
+			chain.doFilter(request, response);
+		} else {
+			res.sendRedirect(indexURI);
+		}
+	}
 }

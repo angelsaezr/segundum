@@ -1,0 +1,37 @@
+<ui:composition template="/WEB-INF/template/template.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:p="http://primefaces.org/ui">
+
+<ui:define name="title">Editar Producto</ui:define>
+
+<ui:define name="content">
+    <h:form id="formEditar">
+
+        <p:growl id="msgs" showDetail="true" life="3000" />
+
+        <p:panel header="Editar Producto: #{editarProductoBean.producto.titulo}" style="max-width:500px;margin:auto;">
+
+            <p:outputLabel value="Nuevo precio:"/>
+            <p:inputNumber value="#{editarProductoBean.nuevoPrecio}" decimalPlaces="2"/>
+
+            <p:separator/>
+
+            <p:outputLabel value="Nueva descripción:"/>
+            <p:inputTextarea value="#{editarProductoBean.nuevaDescripcion}" rows="4"/>
+
+            <p:separator/>
+
+            <p:commandButton value="Guardar cambios" icon="pi pi-save"
+                             action="#{editarProductoBean.guardarCambios}"
+                             update="msgs" />
+
+            <p:commandButton value="Volver" icon="pi pi-arrow-left"
+                             onclick="window.history.back();" type="button" />
+
+        </p:panel>
+
+    </h:form>
+</ui:define>
+</ui:composition>

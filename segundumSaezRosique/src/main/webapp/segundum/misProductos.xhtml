@@ -55,8 +55,15 @@
 				<p:column headerText="Acciones">
 					<p:button icon="pi pi-eye" tooltip="Ver detalle"
 						href="#{request.contextPath}/segundum/verProducto.xhtml?id=#{p.id}" />
-					<!-- TODO -->
+
+					<p:commandButton icon="pi pi-pencil" tooltip="Editar"
+						action="#{misProductosBean.editarProducto}" update="@none">
+						<f:setPropertyActionListener
+							target="#{misProductosBean.productoEditar}" value="#{p}" />
+					</p:commandButton>
+
 				</p:column>
+
 
 			</p:dataTable>
 		</h:panelGroup>
