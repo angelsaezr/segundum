@@ -38,9 +38,10 @@
 				</p:column>
 
 				<p:column headerText="Fecha Publicación">
-					<f:facet name="body">
-						#{p.fechaPublicacion.toLocalDate()}
-					</f:facet>
+					<h:outputText value="#{p.fechaPublicacion}"
+						converter="localDateTimeConverter"
+						rendered="#{p.fechaPublicacion != null}" />
+					<h:outputText value="—" rendered="#{p.fechaPublicacion == null}" />
 				</p:column>
 
 				<p:column headerText="Categoría">
@@ -53,7 +54,8 @@
 
 				<p:column headerText="Acciones">
 					<p:button icon="pi pi-eye" tooltip="Ver detalle"
-						href="#{request.contextPath}/segundum/verProducto.xhtml?id=#{p.id}" /> <!-- TODO -->
+						href="#{request.contextPath}/segundum/verProducto.xhtml?id=#{p.id}" />
+					<!-- TODO -->
 				</p:column>
 
 			</p:dataTable>
