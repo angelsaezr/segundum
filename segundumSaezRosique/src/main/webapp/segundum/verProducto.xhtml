@@ -1,0 +1,72 @@
+<ui:composition template="/WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">Detalle del Producto</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+
+			<p:panel header="Detalles del producto"
+				style="max-width:600px;margin:auto;">
+
+				<h3>#{verProductoBean.producto.titulo}</h3>
+
+				<p:divider />
+
+				<p>
+					<strong>Descripción:</strong><br />
+					#{verProductoBean.producto.descripcion}
+				</p>
+
+				<p>
+					<strong>Precio:</strong> #{verProductoBean.producto.precio} €
+				</p>
+
+				<p>
+					<strong>Estado:</strong> #{verProductoBean.producto.estado.label}
+				</p>
+
+				<p>
+					<strong>Fecha publicación: </strong>
+					<h:outputText value="#{verProductoBean.producto.fechaPublicacion}"
+						converter="localDateTimeConverter" />
+				</p>
+
+				<p>
+					<strong>Categoría:</strong>
+					#{verProductoBean.producto.categoria.nombre}
+				</p>
+
+				<p>
+					<strong>Envío disponible:</strong>
+					#{verProductoBean.producto.envioDisponible ? 'Sí' : 'No'}
+				</p>
+
+				<p>
+					<strong>Descripción lugar de recogida:</strong>
+					#{verProductoBean.producto.lugarDeRecogida.descripcion}
+				</p>
+
+				<p>
+					<strong>Vendedor:</strong>
+					#{verProductoBean.producto.vendedor.nombre}
+				</p>
+
+				<p>
+					<strong>Visualizaciones:</strong>
+					#{verProductoBean.producto.visualizaciones}
+				</p>
+
+				<p:commandButton value="Volver" icon="pi pi-arrow-left"
+					onclick="window.history.back();" type="button" />
+
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

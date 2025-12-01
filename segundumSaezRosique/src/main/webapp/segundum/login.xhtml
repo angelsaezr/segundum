@@ -23,11 +23,11 @@
 				<h:panelGrid columns="2">
 
 					<p:outputLabel value="Email:" for="email" />
-					<p:inputText id="email" value="#{loginUsuarioWeb.email}"
+					<p:inputText id="email" value="#{loginUsuarioBean.email}"
 						required="true" placeholder="Correo electrónico" />
 
 					<p:outputLabel value="Contraseña:" for="clave" />
-					<p:password id="clave" value="#{loginUsuarioWeb.clave}"
+					<p:password id="clave" value="#{loginUsuarioBean.clave}"
 						required="true" feedback="false" placeholder="Contraseña" />
 
 				</h:panelGrid>
@@ -36,7 +36,7 @@
 
 				<h:messages />
 				<p:commandButton value="Entrar" icon="pi pi-sign-in"
-					action="#{loginUsuarioWeb.login}" ajax="false" />
+					action="#{loginUsuarioBean.login}" ajax="false" />
 
 			</h:form>
 		</div>

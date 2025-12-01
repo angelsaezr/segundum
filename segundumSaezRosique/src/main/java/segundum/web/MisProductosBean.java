@@ -25,6 +25,8 @@ public class MisProductosBean implements Serializable {
 
 	private Producto productoEditar;
 
+	private Producto productoSeleccionado;
+
 	@PostConstruct
 	public void init() {
 		try {
@@ -51,11 +53,30 @@ public class MisProductosBean implements Serializable {
 		this.productoEditar = productoEditar;
 	}
 
+	public Producto getProductoSeleccionado() {
+		return productoSeleccionado;
+	}
+
+	public void setProductoSeleccionado(Producto productoSeleccionado) {
+		this.productoSeleccionado = productoSeleccionado;
+	}
+
 	public void editarProducto() {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productoEditar", productoEditar);
 
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("editarProducto.xhtml");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void verDetalle() {
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productoDetalle",
+				productoSeleccionado);
+
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("verProducto.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

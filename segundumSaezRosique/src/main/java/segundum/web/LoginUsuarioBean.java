@@ -14,7 +14,7 @@ import segundum.servicio.IServicioUsuarios;
 
 @Named
 @SessionScoped
-public class LoginUsuarioWeb implements Serializable {
+public class LoginUsuarioBean implements Serializable {
 	private static final long serialVersionUID = -3858691394760749923L;
 	
 	Usuario usuarioLogueado;
@@ -26,7 +26,7 @@ public class LoginUsuarioWeb implements Serializable {
 	@Inject
 	private FacesContext facesContext;
 
-	public LoginUsuarioWeb() {
+	public LoginUsuarioBean() {
 		servicioUsuarios = FactoriaServicios.getServicio(IServicioUsuarios.class);
 	}
 	

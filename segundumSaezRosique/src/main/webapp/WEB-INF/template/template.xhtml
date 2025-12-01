@@ -64,7 +64,7 @@
 						<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
 							<li class="#{estilo2}"><h:form>
 									<p:commandButton value="Cerrar sesión"
-										action="#{loginUsuarioWeb.logout}" icon="pi pi-sign-out"
+										action="#{loginUsuarioBean.logout}" icon="pi pi-sign-out"
 										ajax="false" update="@none"
 										styleClass="ui-button-raised ui-button-rounded ui-button-danger" />
 								</h:form></li>
