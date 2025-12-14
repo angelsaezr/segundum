@@ -20,55 +20,57 @@
 			<h2>Productos publicados por
 				#{sessionScope['usuarioLogueado'].nombre}</h2>
 
-			<p:dataTable value="#{misProductosBean.misProductos}" var="p"
-				emptyMessage="No tienes productos publicados." rows="10"
-				paginator="true">
+			<h:form id="formMisProductos">
+
+				<p:dataTable value="#{misProductosBean.misProductos}" var="p"
+					emptyMessage="No tienes productos publicados." rows="10"
+					paginator="true">
 
 
-				<p:column headerText="Título">
+					<p:column headerText="Título">
 					#{p.titulo}
 				</p:column>
 
-				<p:column headerText="Precio">
+					<p:column headerText="Precio">
 					#{p.precio} €
 				</p:column>
 
-				<p:column headerText="Estado">
+					<p:column headerText="Estado">
 					#{p.estado}
 				</p:column>
 
-				<p:column headerText="Fecha Publicación">
-					<h:outputText value="#{p.fechaPublicacion}"
-						converter="localDateTimeConverter"
-						rendered="#{p.fechaPublicacion != null}" />
-					<h:outputText value="—" rendered="#{p.fechaPublicacion == null}" />
-				</p:column>
+					<p:column headerText="Fecha Publicación">
+						<h:outputText value="#{p.fechaPublicacion}"
+							converter="localDateTimeConverter"
+							rendered="#{p.fechaPublicacion != null}" />
+						<h:outputText value="—" rendered="#{p.fechaPublicacion == null}" />
+					</p:column>
 
-				<p:column headerText="Categoría">
+					<p:column headerText="Categoría">
 					#{p.categoria.nombre}
 				</p:column>
 
-				<p:column headerText="Visualizaciones">
+					<p:column headerText="Visualizaciones">
 					#{p.visualizaciones}
 				</p:column>
 
-				<p:column headerText="Acciones">
-					<p:commandButton icon="pi pi-eye" tooltip="Ver detalle"
-						action="#{misProductosBean.verDetalle}" update="@none">
-						<f:setPropertyActionListener
-							target="#{misProductosBean.productoSeleccionado}" value="#{p}" />
-					</p:commandButton>
+					<p:column headerText="Acciones">
+						<p:commandButton icon="pi pi-eye" tooltip="Ver detalle"
+							action="#{misProductosBean.verDetalle}" ajax="false">
+							<f:setPropertyActionListener
+								target="#{misProductosBean.productoSeleccionado}" value="#{p}" />
+						</p:commandButton>
 
-					<p:commandButton icon="pi pi-pencil" tooltip="Editar"
-						action="#{misProductosBean.editarProducto}" update="@none">
-						<f:setPropertyActionListener
-							target="#{misProductosBean.productoEditar}" value="#{p}" />
-					</p:commandButton>
+						<p:commandButton icon="pi pi-pencil" tooltip="Editar"
+							action="#{misProductosBean.editarProducto}" ajax="false">
+							<f:setPropertyActionListener
+								target="#{misProductosBean.productoEditar}" value="#{p}" />
+						</p:commandButton>
 
-				</p:column>
+					</p:column>
 
-
-			</p:dataTable>
+				</p:dataTable>
+			</h:form>
 		</h:panelGroup>
 
 	</ui:define>

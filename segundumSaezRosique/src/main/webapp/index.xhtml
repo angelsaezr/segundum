@@ -9,26 +9,8 @@
 
 	<ui:define name="content">
 
-		<!-- Si no esta logueado -->
-		<ui:fragment rendered="#{sessionScope['usuarioLogueado'] == null}">
+		<ui:fragment>
 			<section id="banner">
-				<header>
-					<h1>Bienvenido a Segundum</h1>
-					<p>Inicia sesión para continuar</p>
-					<p:button value="Iniciar sesión" icon="pi pi-sign-in"
-							  href="#{request.contextPath}/segundum/login.xhtml"
-							  styleClass="ui-button-primary ui-button-rounded ui-button-raised" />
-				</header>
-			</section>
-		</ui:fragment>
-
-		<!-- Si esta logueado -->
-		<ui:fragment rendered="#{sessionScope['usuarioLogueado'] != null}">
-			<section id="banner">
-				<header>
-					<h1>Hola #{sessionScope['usuarioLogueado'].nombre}</h1>
-					<p>Ya puedes usar Segundum</p>
-				</header>
 			</section>
 		</ui:fragment>
 

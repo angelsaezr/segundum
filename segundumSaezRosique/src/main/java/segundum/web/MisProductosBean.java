@@ -61,25 +61,17 @@ public class MisProductosBean implements Serializable {
 		this.productoSeleccionado = productoSeleccionado;
 	}
 
-	public void editarProducto() {
+	public String editarProducto() {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productoEditar", productoEditar);
 
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("editarProducto.xhtml");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return "editarProducto?faces-redirect=true";
 	}
 
-	public void verDetalle() {
+	public String verDetalle() {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productoDetalle",
 				productoSeleccionado);
 
-		try {
-			FacesContext.getCurrentInstance().getExternalContext().redirect("verProducto.xhtml");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return "verProducto?faces-redirect=true";
 	}
 
 }
