@@ -105,8 +105,9 @@ public class BuscarProductoBean implements Serializable {
 	// ------- Acción principal -------
 	public void buscar() {
 		try {
-			resultados = servicioProductos.buscarProductos(descripcion, categoriaSeleccionada.getId(), estado,
-					precioMax);
+			String idCategoria = (categoriaSeleccionada != null) ? categoriaSeleccionada.getId() : null;
+
+			resultados = servicioProductos.buscarProductos(descripcion, idCategoria, estado, precioMax);
 
 			if (resultados == null || resultados.isEmpty()) {
 				facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sin resultados",
