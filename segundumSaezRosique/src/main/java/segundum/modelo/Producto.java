@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import segundum.repositorio.Identificable;
@@ -39,10 +39,10 @@ public class Producto implements Identificable {
 
 	private boolean envioDisponible;
 
-	@OneToOne
+	@ManyToOne
 	private Categoria categoria;
 
-	@OneToOne
+	@ManyToOne
 	private Usuario vendedor;
 
 	@Embedded

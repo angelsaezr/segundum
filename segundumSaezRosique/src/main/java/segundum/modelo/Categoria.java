@@ -35,7 +35,8 @@ public class Categoria implements Identificable {
 	@Lob
 	@XmlTransient
 	private String descripcion;
-
+	
+	@Lob
 	@XmlAttribute
 	private String ruta;
 
