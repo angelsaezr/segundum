@@ -101,9 +101,3 @@ Ejecuta la clase `segundum.servicio.test.Programa` como aplicación Java para in
 - **Specification**: clase genérica `Especificacion<T>` basada en `Predicate` para componer criterios de filtrado.
 - **DTO**: `ProductoResumenMensual` como objeto de transferencia para el resumen mensual del vendedor.
 - **Template Method**: `RepositorioJPA<T>` implementa las operaciones CRUD genéricas; las subclases solo especifican la clase de entidad.
-
----
-
-## Autores
-
-Ángel Sáez Rosique y Francisco Javier Ramírez López — AADD 2025/2026
