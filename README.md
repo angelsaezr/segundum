@@ -101,3 +101,17 @@ Ejecuta la clase `segundum.servicio.test.Programa` como aplicación Java para in
 - **Specification**: clase genérica `Especificacion<T>` basada en `Predicate` para componer criterios de filtrado.
 - **DTO**: `ProductoResumenMensual` como objeto de transferencia para el resumen mensual del vendedor.
 - **Template Method**: `RepositorioJPA<T>` implementa las operaciones CRUD genéricas; las subclases solo especifican la clase de entidad.
+
+---
+
+## Interfaz de usuario
+
+<img width="1201" height="547" alt="image" src="https://github.com/user-attachments/assets/28d367f1-ae57-47e6-806f-ca38965e11a4" />
+<img width="1190" height="504" alt="image" src="https://github.com/user-attachments/assets/de265e80-50e3-495c-bdb8-0a4b76ea3626" />
+<img width="1193" height="571" alt="image" src="https://github.com/user-attachments/assets/fbce13ae-9c31-4030-a03c-907e2598ed72" />
+<img width="1160" height="497" alt="image" src="https://github.com/user-attachments/assets/e4028140-d873-4b7b-a2b9-6c1788fd60f7" />
+<img width="1130" height="552" alt="image" src="https://github.com/user-attachments/assets/6eca2171-0bf8-4ddb-98a6-1328ef09dec5" />
+<img width="959" height="490" alt="image" src="https://github.com/user-attachments/assets/ec39cee6-5e50-4865-abd4-d4d385460a89" />
+<img width="964" height="553" alt="image" src="https://github.com/user-attachments/assets/867bbb19-65b0-4e6c-8979-24f2e05c1a60" />
+<img width="1010" height="232" alt="image" src="https://github.com/user-attachments/assets/7343bd23-13a2-4a61-8c6c-3610f52f85c5" />
+
